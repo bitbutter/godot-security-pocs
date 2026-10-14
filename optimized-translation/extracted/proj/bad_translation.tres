@@ -1,0 +1,7 @@
+[gd_resource type="OptimizedTranslation" format=3]
+
+[resource]
+locale = "en"
+hash_table = PackedInt32Array(1073741824)
+bucket_table = PackedInt32Array(0, 0)
+strings = PackedByteArray()

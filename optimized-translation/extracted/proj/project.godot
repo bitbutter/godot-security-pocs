@@ -1,0 +1,7 @@
+; Engine configuration file.
+[application]
+config/name="OptimizedTranslation OOB repro"
+config/main_scene="res://main.tscn"
+
+[autoload]
+Trigger="*res://trigger.gd"
