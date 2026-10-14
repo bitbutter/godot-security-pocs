@@ -8,7 +8,7 @@
   SHA-256: `604982a1d0f8b0b7f19ec9a75d565f51a7879f2cdddf898c58234bef6e54f380`
   Mirror: https://drive.google.com/file/d/1JvgN0Tobio83skfaIRJGYzSL08__hyKC/view?usp=sharing
 - `extracted/` — the archive's contents: `evil4ch.hdr` (crafted, 746 bytes), `ok.hdr` (valid baseline), `repro.gd`, `verify.ps1`, `project.godot`.
-- `extras/gen_hdr.py` — generator script that produces the crafted file (not part of the original archive).
+- `extras/gen_hdr.py` — generator script that produces the crafted file; a provided extra alongside the original archive.
 
 ## How to run
 
