@@ -26,7 +26,7 @@ The bugs were found in an LLM-directed source audit (Claude Code; Opus 4.8 for d
 
 Timeline: reported 2026-06-22/23; public notice godotengine/godot#123608 on 2026-09-18; the maintainer response of 2026-09-19 classified the issues as not security issues; public disclosure 2026-09-21 (https://axeghost.offprint.app/a/3mvs6zo4blo23-three-memory-safety-bugs-in-godots-untrusted-file-parsers); volunteer fix PR godotengine/godot#123862 applying the suggested patches closed unmerged on 2026-09-26, the day it opened; independent binres fix godotengine/godot#121289 unmerged since 2026-07-12. CVE identifiers were requested from the MITRE CNA-LR on 2026-09-20 and are pending as of 2026-10-14.
 
-oss-security discussion threads: to be added when posted.
+oss-security discussion threads: "Godot 4.x: heap out-of-bounds read in OptimizedTranslation message lookup" — https://www.openwall.com/lists/oss-security/2026/10/14/6 (2026-10-14, first Godot post in the list's history). HDR and binary-resource threads: to be added when posted.
 
 ## Handling
 

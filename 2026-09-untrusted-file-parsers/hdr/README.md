@@ -1,6 +1,6 @@
 # HDR image loader — heap out-of-bounds write (Godot 4.x)
 
-`ImageLoaderHDR::load_image` (`modules/hdr/image_loader_hdr.cpp`, lines 104-118) decodes Radiance HDR run-length data. Run and pixel counts read from the file are trusted without checking them against the reserved image buffer. A crafted `.hdr` file directs the decoder to write attacker-controlled pixel data past the end of the heap buffer.
+`ImageLoaderHDR::load_image` (`modules/hdr/image_loader_hdr.cpp`, lines 104-118) decodes Radiance HDR run-length data. Run and pixel counts read from the file are trusted without checking them against the reserved image buffer. A crafted `.hdr` file directs the decoder to write attacker-controlled data past the end of the heap buffer.
 
 ## Files
 
