@@ -22,7 +22,7 @@ Two of the archives contain generator scripts (`make_repro.py`), so the crafted 
 
 ## Shared background
 
-The bugs were found in an LLM-directed source audit (Claude Code; Opus 4.8 for discovery, Sonnet 4.6 for report and reproduction) and verified by Tomasz Kaye against official release binaries. Two of the three bugs have been in the engine since it was open-sourced in 2014; the third since 2017. An exported Godot game that loads player- or community-supplied files of these kinds (mods, downloads, uploads) exposes each path to untrusted content.
+The bugs were found in an LLM-directed source audit (Claude Code; Opus 4.8 for discovery, Sonnet 4.6 for report and reproduction) and verified by Tomasz Kaye against official release binaries. The binary resource parser and the translation loader have been in the engine since the initial 2014 import (commit 0b806ee0fc); the HDR loader was added in May 2017 (commit bb20f230ad). An exported Godot game that loads player- or community-supplied files of these kinds (mods, downloads, uploads) exposes each path to untrusted content.
 
 Timeline: reported 2026-06-22/23; public notice godotengine/godot#123608 on 2026-09-18; the maintainer response of 2026-09-19 classified the issues as not security issues; public disclosure 2026-09-21 (https://axeghost.offprint.app/a/3mvs6zo4blo23-three-memory-safety-bugs-in-godots-untrusted-file-parsers); volunteer fix PR godotengine/godot#123862 applying the suggested patches closed unmerged on 2026-09-26, the day it opened; independent binres fix godotengine/godot#121289 unmerged since 2026-07-12. CVE identifiers were requested from the MITRE CNA-LR on 2026-09-20 and are pending as of 2026-10-14.
 

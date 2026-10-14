@@ -26,7 +26,7 @@ The realistic vector is substitution of a project's `.translation` files (the ou
 
 ## Status
 
-Unpatched as of 2026-10-13 (master, 4.7.2, 4.7.1, 4.7). A suggested patch (bounds checks in both `get_message()` and `get_translated_message_list()`) is in the original report. Volunteer fix PR godotengine/godot#123862 was closed unmerged on 2026-09-26, the day it opened.
+Present since the initial 2014 import (commit 0b806ee0fc). Unpatched as of 2026-10-13 (master, 4.7.2, 4.7.1, 4.7). A suggested patch (bounds checks in both `get_message()` and `get_translated_message_list()`) is in the original report. Volunteer fix PR godotengine/godot#123862 was closed unmerged on 2026-09-26, the day it opened.
 
 CVE: requested from the MITRE CNA-LR on 2026-09-20; pending as of 2026-10-14.
 

@@ -26,7 +26,7 @@ Godot imports `.hdr` files automatically during asset import. An exported game t
 
 ## Status
 
-Unpatched as of 2026-10-13 (master, 4.7.2, 4.7.1, 4.7). A suggested patch is in the original report (see the disclosure post's correspondence). Volunteer fix PR godotengine/godot#123862 was closed unmerged on 2026-09-26, the day it opened.
+The loader was added in May 2017 (commit bb20f230ad). Unpatched as of 2026-10-13 (master, 4.7.2, 4.7.1, 4.7). A suggested patch is in the original report (see the disclosure post's correspondence). Volunteer fix PR godotengine/godot#123862 was closed unmerged on 2026-09-26, the day it opened.
 
 CVE: requested from the MITRE CNA-LR on 2026-09-20; pending as of 2026-10-14.
 

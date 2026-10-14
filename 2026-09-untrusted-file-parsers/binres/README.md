@@ -24,7 +24,7 @@ Any load of a crafted binary resource reaches the bug. Exported games that load 
 
 ## Status
 
-Unpatched as of 2026-10-13 (master, 4.7.2, 4.7.1, 4.7). A suggested patch is in the original report. Two independent fix attempts exist: godotengine/godot#121289 (third party, 2026-07-12, still unmerged) and godotengine/godot#123862 (volunteer, applying the suggested patches, closed unmerged 2026-09-26, the day it opened).
+Present since the initial 2014 import (commit 0b806ee0fc). Unpatched as of 2026-10-13 (master, 4.7.2, 4.7.1, 4.7). A suggested patch is in the original report. Two independent fix attempts exist: godotengine/godot#121289 (third party, 2026-07-12, still unmerged) and godotengine/godot#123862 (volunteer, applying the suggested patches, closed unmerged 2026-09-26, the day it opened).
 
 CVE: requested from the MITRE CNA-LR on 2026-09-20; pending as of 2026-10-14.
 
