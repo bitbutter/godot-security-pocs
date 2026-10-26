@@ -1,7 +1,8 @@
 # Godot .po Plural-Forms code execution — reproduction artifacts
 
-Reproduction for a code-execution vulnerability in Godot 4.x disclosed on 2026-10-27: the `Plural-Forms` header of a `.po` translation file is evaluated by the engine's general `Expression` evaluator, which exposes registered Variant utility functions and, through `bytes_to_var_with_objects()`, deserialization of a serialized `GDScript` object whose `script/source` property is attacker-supplied; decoding compiles and statically initializes that script at the first plural lookup (`tr_n()`).
+Reproduction for a code-execution vulnerability in Godot 4.x disclosed on 2026-10-26: the `Plural-Forms` header of a `.po` translation file is evaluated by the engine's general `Expression` evaluator, which exposes registered Variant utility functions and, through `bytes_to_var_with_objects()`, deserialization of a serialized `GDScript` object whose `script/source` property is attacker-supplied; decoding compiles and statically initializes that script at the first plural lookup (`tr_n()`).
 
+Advisory article: https://axeghost.offprint.app/a/3mysixmpap723-a-community-translation-can-run-attacker-chosen-code-in-an-exported-godot-game
 Demonstration video: https://youtu.be/LnNNx1F2aGo
 
 ## rng-proof/
