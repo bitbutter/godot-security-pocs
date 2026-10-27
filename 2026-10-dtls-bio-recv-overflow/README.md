@@ -2,6 +2,7 @@
 
 Reproduction for an unauthenticated heap buffer overflow in Godot's DTLS networking, disclosed 2026-10-27: the DTLS receive callback `PacketPeerMbedDTLS::bio_recv` (`modules/mbedtls/packet_peer_mbed_dtls.cpp:75`) ignores the buffer capacity that mbedTLS passes it and copies the entire received UDP datagram — up to 65,507 bytes over IPv4 — into a 16,765-byte heap input buffer, before certificate verification or any authentication. One datagram kills a game server using the documented `UDPServer` + `DTLSServer` community-server pattern when a player joins, and kills a player who joins a hostile server. Present in every tag inspected (3.2.2, 4.7, 4.7.1, 4.7.2) and master; runtime-confirmed on the official 4.7-stable Windows release template.
 
+Advisory article: https://axeghost.offprint.app/a/3myuwcppvkr23-an-attacker-can-crash-a-godot-game-server-using-dtls-with-a-single-udp-datagram
 Demonstration video: https://www.youtube.com/watch?v=Outi7jvU2VY
 
 ## The demonstration
