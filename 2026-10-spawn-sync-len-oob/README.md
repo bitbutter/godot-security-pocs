@@ -2,6 +2,8 @@
 
 Reproduction for an out-of-bounds-read vulnerability in Godot 4.x disclosed on 2026-10-27: the spawn-packet bounds check in `SceneReplicationInterface::on_spawn_receive` (`modules/multiplayer/scene_replication_interface.cpp:586`) computes `name_len + (sync_len * 4)` in 32-bit unsigned arithmetic. A crafted `sync_len` of `0x40000000` wraps that product to 0, defeats the check, and the sync-ids loop that follows reads past the packet buffer until the client process faults. One crafted packet from a peer holding multiplayer spawn authority — the game server by default — reliably crashes joining clients running the stock engine. Present in every stable release 4.0 through 4.7.2 and on master (introduced in commit `32a62af648`, 2022-10-03); confirmed at runtime on the official 4.7-stable build.
 
+Advisory article: https://axeghost.offprint.app/a/3myukb53ww723-a-malicious-game-server-can-crash-the-godot-clients-that-join-it
+
 ## The demonstration
 
 `server.py` (the attacker) is a Python WebSocket game server. `proj/victim_client.gd` (the victim) is the standard Godot docs setup for server-authoritative spawning: a `SceneMultiplayer` + `WebSocketMultiplayerPeer` client with a `MultiplayerSpawner` node. The server sends three binary WebSocket messages: a 4-byte peer id (the normal handshake), a `NETWORK_COMMAND_SIMPLIFY_PATH` that caches the client's spawner (normal cache traffic), then one crafted `NETWORK_COMMAND_SPAWN` whose `sync_len = 0x40000000`. The only malicious value in the exchange is that field.
