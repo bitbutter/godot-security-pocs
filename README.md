@@ -9,6 +9,7 @@ Reproduction material for security vulnerabilities in Godot Engine, published at
 | 2026-09-21 — untrusted-file parsers | [`2026-09-untrusted-file-parsers/`](2026-09-untrusted-file-parsers/) | 3 (HDR image loader, binary resource loader, OptimizedTranslation) |
 | 2026-10-26 — .po Plural-Forms code execution | [`2026-10-po-plural-forms-gdscript-execution/`](2026-10-po-plural-forms-gdscript-execution/) | 1 (translation Plural-Forms header → GDScript execution) |
 | 2026-10-27 — multiplayer spawn packet overflow | [`2026-10-spawn-sync-len-oob/`](2026-10-spawn-sync-len-oob/) | 1 (`sync_len*4` integer overflow → out-of-bounds read, `on_spawn_receive`) |
+| 2026-10-27 — DTLS receive-callback heap overflow | [`2026-10-dtls-bio-recv-overflow/`](2026-10-dtls-bio-recv-overflow/) | 1 (unauthenticated datagram → heap buffer overflow, `bio_recv`) |
 
 ## Integrity
 

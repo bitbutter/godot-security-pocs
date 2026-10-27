@@ -1,0 +1,16 @@
+[application]
+
+config/name="Orbitia Server"
+run/main_scene="res://main.tscn"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=420
+window/size/window_width_override=800
+window/size/window_height_override=420
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
