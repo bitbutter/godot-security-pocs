@@ -7,10 +7,12 @@ Reproduction material for security vulnerabilities in Godot Engine, published at
 | Disclosure | Directory | Bugs |
 |---|---|---|
 | 2026-09-21 — untrusted-file parsers | [`2026-09-untrusted-file-parsers/`](2026-09-untrusted-file-parsers/) | 3 (HDR image loader, binary resource loader, OptimizedTranslation) |
+| 2026-10-26 — .po Plural-Forms code execution | [`2026-10-po-plural-forms-gdscript-execution/`](2026-10-po-plural-forms-gdscript-execution/) | 1 (translation Plural-Forms header → GDScript execution) |
+| 2026-10-27 — multiplayer spawn packet overflow | [`2026-10-spawn-sync-len-oob/`](2026-10-spawn-sync-len-oob/) | 1 (`sync_len*4` integer overflow → out-of-bounds read, `on_spawn_receive`) |
 
 ## Integrity
 
-Every directory contains the original reproduction archives exactly as distributed at disclosure, with SHA-256 hashes stated in its README, plus the extracted contents. Verify downloads against the stated hashes; several archives also carry generator scripts that rebuild the crafted inputs from scratch.
+The 2026-09 directory carries the original reproduction archives exactly as distributed at disclosure, plus the extracted contents. The 2026-10 directories carry the disclosure kit files directly, each with a `SHA256SUMS.txt` manifest (`sha256sum -c SHA256SUMS.txt`); their READMEs state exactly how the kit differs from the archive sent to the vendor. Verify downloads against the stated hashes; several kits also carry generator scripts that rebuild the crafted inputs from scratch.
 
 ## Handling
 
